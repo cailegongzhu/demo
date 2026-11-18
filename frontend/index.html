@@ -3,105 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Git 学习手册 · 全栈第一步</title>
-  <!-- 结构(HTML) 与 样式(CSS) 分离：样式集中在 style.css -->
+  <title>输入输出示例 · 前端</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <main class="wrap">
+    <h1>输入输出示例</h1>
+    <p class="lead">这是独立的前端页面。输入内容后点发送，请求会发给后端 API，后端原样返回并显示在输出框。</p>
 
-<header class="hero">
-  <div class="wrap">
-    <span class="badge">全栈成长路线 · 第 01 站</span>
-    <h1>从 <span>Git</span> 开始你的全栈之旅</h1>
-    <p>Git 是开发者最重要的工具之一。这份手册把最核心的概念和命令浓缩在一页里，配合旁边的《使用说明》动手练习，很快就能上手。</p>
-    <div class="meta">
-      <span><b>4</b> 个核心区域</span>
-      <span><b>20+</b> 常用命令</span>
-      <span><b>1</b> 条实战流程</span>
-    </div>
-  </div>
-</header>
+    <!-- 输入框面板：带飞入动画 -->
+    <section class="panel panel--input">
+      <label for="inputBox">输入框</label>
+      <textarea id="inputBox" placeholder="在这里输入内容，例如：你好，后端！">你好，后端！</textarea>
+      <button id="sendBtn">发送到后端（POST）</button>
+    </section>
 
-<main class="wrap">
+    <!-- 输出框面板：稍微延后飞入 -->
+    <section class="panel panel--output">
+      <label for="outputBox">输出框（后端返回的内容）</label>
+      <textarea id="outputBox" readonly placeholder="后端返回的内容会显示在这里"></textarea>
+      <p id="status" class="status"></p>
+    </section>
 
-  <section>
-    <div class="sec-head"><div class="num">1</div><h2>理解 Git 的四个区域</h2><span class="sub">最重要的一张图</span></div>
-    <div class="card">
-      <div class="flow">
-        <div class="node n1"><div class="dot"></div><b>工作区</b><small>你正在编辑的文件</small></div>
-        <div class="arrow"><div class="line">→</div><code>git add</code></div>
-        <div class="node n2"><div class="dot"></div><b>暂存区</b><small>准备提交的内容</small></div>
-        <div class="arrow"><div class="line">→</div><code>git commit</code></div>
-        <div class="node n3"><div class="dot"></div><b>本地仓库</b><small>保存在 .git 中</small></div>
-        <div class="arrow"><div class="line">→</div><code>git push</code></div>
-        <div class="node n4"><div class="dot"></div><b>远程仓库</b><small>GitHub / Gitee</small></div>
-      </div>
-      <p class="flow-note">日常循环：修改文件 → <code>add</code> 暂存 → <code>commit</code> 存档 → <code>push</code> 同步。反向操作分别是 <code>checkout</code> / <code>reset</code> / <code>pull</code>。</p>
-    </div>
-  </section>
+    <p class="hint">后端 API 地址可在 <code>script.js</code> 顶部的 <code>API_URL</code> 修改；部署到服务器时改成服务器的地址即可。</p>
+  </main>
 
-  <section>
-    <div class="sec-head"><div class="num">2</div><h2>常用命令速查</h2><span class="sub">点击标签切换 · 点「复制」取用</span></div>
-    <div class="tabs" id="tabs">
-      <div class="tab active" data-cat="all">全部</div>
-      <div class="tab" data-cat="init">初始化 &amp; 配置</div>
-      <div class="tab" data-cat="daily">日常提交</div>
-      <div class="tab" data-cat="branch">分支</div>
-      <div class="tab" data-cat="remote">远程协作</div>
-      <div class="tab" data-cat="undo">撤销 &amp; 查看</div>
-    </div>
-    <div class="cmd-list" id="cmdList"></div>
-  </section>
-
-  <section>
-    <div class="sec-head"><div class="num">3</div><h2>一次完整的提交流程</h2><span class="sub">照着做一遍就会了</span></div>
-    <div class="steps">
-      <div class="step"><div><b>查看当前状态</b><p><code>git status</code> —— 随时知道哪些文件被改了、哪些已暂存。</p></div></div>
-      <div class="step"><div><b>暂存改动</b><p><code>git add .</code> 把当前目录所有改动放进暂存区（也可指定单个文件）。</p></div></div>
-      <div class="step"><div><b>提交存档</b><p><code>git commit -m "说明这次改了什么"</code> —— 写清楚、写具体，未来的你会感谢现在的你。</p></div></div>
-      <div class="step"><div><b>推送到远程</b><p><code>git push origin master</code> 把本地提交同步到远程仓库，完成一次协作闭环。</p></div></div>
-    </div>
-  </section>
-
-  <section>
-    <div class="sec-head"><div class="num">4</div><h2>分支：Git 最强大的地方</h2><span class="sub">互不干扰地并行开发</span></div>
-    <div class="card">
-      <div class="branch-box">
-        <div class="branch-card">
-          <h4>主分支 <span class="tag main">master / main</span></h4>
-          <div class="track"><div class="c"></div><div class="bar"></div><div class="c"></div><div class="bar"></div><div class="c"></div><div class="lbl">稳定版本</div></div>
-          <p>始终保持可发布状态，只接收经过验证的合并。</p>
-        </div>
-        <div class="branch-card">
-          <h4>功能分支 <span class="tag feat">feature/xxx</span></h4>
-          <div class="track feat"><div class="c"></div><div class="bar"></div><div class="c"></div><div class="bar"></div><div class="c"></div><div class="lbl">开发中</div></div>
-          <p>从主分支切出，开发完再 <code>merge</code> 回去，互不影响。</p>
-        </div>
-      </div>
-      <div class="callout callout-spacing">
-        <b>分支三连：</b> <code>git checkout -b feature/login</code> 新建并切换 → 开发并提交 → <code>git checkout master</code> 切回 → <code>git merge feature/login</code> 合并。
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="sec-head"><div class="num">5</div><h2>新手最容易困惑的点</h2></div>
-    <div class="card">
-      <div class="steps">
-        <div class="step"><div><b>commit 之后想改怎么办？</b><p>不要害怕「写错」。改完再 <code>add</code> + <code>commit</code> 一次即可；只有最后一次提交可以用 <code>git commit --amend</code> 修改。</p></div></div>
-        <div class="step"><div><b>add 错了想撤销？</b><p><code>git restore --staged 文件名</code> 把它从暂存区移回工作区，文件本身不会丢。</p></div></div>
-        <div class="step"><div><b>push 被拒绝（rejected）？</b><p>说明远程有本地没有的提交。先 <code>git pull</code> 合并远程改动，再 <code>push</code>。</p></div></div>
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<footer>
-  <span class="git-mark">git</span> 学习手册 · 配合《使用说明.md》边读边练 · 全栈之路，从提交第一个 commit 开始
-</footer>
-
-<!-- 结构(HTML) 与 行为(JS) 分离：交互逻辑集中在 script.js，放在 body 末尾确保 DOM 已加载 -->
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
